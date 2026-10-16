@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CWV Agent</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b6bcb'/%3E%3Cpath d='M7 20l5-6 4 4 7-9' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span>CWV Agent</span>
+        </a>
+        <span class="tagline">Core Web Vitals diagnosis · LCP · INP · CLS</span>
+      </div>
+    </header>
+
+    <div class="wrap layout">
+      <main>
+        <section class="card" aria-labelledby="run-title">
+          <h1 id="run-title" class="card-title">Diagnose a page</h1>
+          <p class="muted">
+            Checks Google's Core Web Vitals assessment (real-user CrUX data), runs PageSpeed Insights and a
+            simulated visit in Chrome, detects the platform and plugins, then explains what fails for real
+            users and how to fix it. Link the site's source code (local folder or GitHub repo) and it also
+            finds the exact file and line and suggests the code change.
+          </p>
+          <form id="run-form" class="run-form" novalidate>
+            <label class="sr-only" for="url">Page URL</label>
+            <input
+              id="url"
+              name="url"
+              type="text"
+              inputmode="url"
+              autocomplete="url"
+              spellcheck="false"
+              placeholder="https://example.com/page"
+              required
+            />
+            <div class="segmented" role="radiogroup" aria-label="Device">
+              <label><input type="radio" name="device" value="mobile" checked /><span>Mobile</span></label>
+              <label><input type="radio" name="device" value="desktop" /><span>Desktop</span></label>
+            </div>
+            <button id="run-btn" class="btn btn-primary" type="submit">Run diagnosis</button>
+            <div class="source-field">
+              <label for="source"
+                >Source code <span class="muted">(optional, to find the exact file &amp; line)</span></label
+              >
+              <input
+                id="source"
+                name="source"
+                type="text"
+                spellcheck="false"
+                autocomplete="off"
+                placeholder="~/Projects/my-site  or  https://github.com/owner/repo#branch"
+              />
+            </div>
+          </form>
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+        </section>
+
+        <section id="progress" class="card" hidden aria-live="polite">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title">Investigation</h2>
+              <p class="muted small" id="progress-target"></p>
+            </div>
+            <div class="progress-meta">
+              <span id="elapsed" class="mono">0s</span>
+              <button id="cancel-btn" class="btn btn-ghost" type="button">Cancel</button>
+            </div>
+          </div>
+          <ol id="steps" class="steps"></ol>
+        </section>
+
+        <section id="report" hidden></section>
+      </main>
+
+      <aside class="card history" aria-labelledby="history-title">
+        <div class="card-head">
+          <h2 id="history-title" class="card-title">Recent reports</h2>
+          <button
+            id="history-refresh"
+            class="btn btn-ghost btn-sm"
+            type="button"
+            aria-label="Refresh reports"
+          >
+            ↻
+          </button>
+        </div>
+        <ul id="history-list" class="history-list"></ul>
+        <p id="history-empty" class="muted small" hidden>No reports yet. Run your first diagnosis.</p>
+      </aside>
+    </div>
+  </body>
+</html>
